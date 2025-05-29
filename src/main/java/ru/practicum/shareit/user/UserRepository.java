@@ -7,6 +7,7 @@ import ru.practicum.shareit.exception.ValidationException;
 
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -54,7 +55,7 @@ public class UserRepository {
 
     private void validateEmail(User user) {
         for (User u : users.values()) {
-            if (u.getId() == user.getId()) {
+            if (Objects.equals(u.getId(), user.getId())) {
                 continue;
             }
             if (u.getEmail().equals(user.getEmail())) {
