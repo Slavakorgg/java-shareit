@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         log.info("<== delete User by id: {}", id);
     }
 
-    public User userExist(Long id){
+    public User userExist(Long id) {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new NotFoundException("Пользователь не найден");
