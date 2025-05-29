@@ -2,7 +2,6 @@ package ru.practicum.shareit.item;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
-@Slf4j
 @Validated
 public class ItemController {
     private final ItemService itemService;
@@ -24,41 +22,31 @@ public class ItemController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ItemDto create(@Valid @RequestBody ItemDto itemDto, @RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("==> Creating item: {}", itemDto);
-        ItemDto item = itemService.create(itemDto, userId);
-        log.info("<== Creating item: {}", item);
-        return item;
+
+        return itemService.create(itemDto, userId);
     }
 
     @PatchMapping("/{itemId}")
     public ItemDto update(@PathVariable("itemId") Long itemId, @RequestBody ItemDto itemDto, @RequestHeader(value = "X-Sharer-User-Id") Long userId) {
-        log.info("==> Updating item: {}", itemDto);
-        ItemDto item = itemService.update(itemId, itemDto, userId);
-        log.info("==> Updating item: {}", item);
-        return item;
+
+        return itemService.update(itemId, itemDto, userId);
     }
 
     @GetMapping("/{itemId}")
     public ItemDto getItemById(@PathVariable("itemId") Long itemId) {
-        log.info("==> get item by id: {}", itemId);
-        ItemDto item = itemService.getItem(itemId);
-        log.info("<== get item by id: {}", item);
-        return item;
+
+        return itemService.get(itemId);
     }
 
     @GetMapping
     public List<ItemDto> getUserItems(@RequestHeader("X-Sharer-User-Id") Long userId) {
-        log.info("==> get user items by user id: {}", userId);
-        List<ItemDto> items = itemService.getAllItemsByOwner(userId);
-        log.info("<== get user items by user id: {}", userId);
-        return items;
+
+        return itemService.getAllItemsByOwner(userId);
     }
 
     @GetMapping("/search")
     public List<ItemDto> search(@RequestParam("text") String searchText) {
-        log.info("==> search items: {}", searchText);
-        List<ItemDto> items = itemService.search(searchText);
-        log.info("<== search items: {}", searchText);
-        return items;
+
+        return itemService.search(searchText);
     }
 }
