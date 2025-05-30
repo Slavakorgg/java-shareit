@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto update(Long id, UserDto userDto) {
         log.debug("==> Updating user: {}", userDto);
-        User user = userExist(id);
+        User user = getUser(id);
         User updateUser = userMapper.toUser(userDto);
 
         if (updateUser.getName() != null && !Objects.equals(user.getName(), updateUser.getName())) {
@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto get(Long id) {
         log.debug("==> get User by id: {}", id);
-        User user = userExist(id);
+        User user = getUser(id);
         log.debug("<== get User by id: {}", user);
         return userMapper.toUserDto(user);
     }
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         log.info("<== delete User by id: {}", id);
     }
 
-    public User userExist(Long id) {
+    public User getUser(Long id) {
         User user = userRepository.findById(id);
         if (user == null) {
             throw new NotFoundException("Пользователь не найден");
