@@ -55,7 +55,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingDto> findByBooker(long bookerId, BookingState state, Pageable pageable) {
-        if (!userExistById(bookerId)){
+        if (!userExistById(bookerId)) {
             throw new NotFoundException("Пользователь не найден");
         }
         LocalDateTime timeNow = LocalDateTime.now();
@@ -73,7 +73,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingDto> findByOwner(long ownerId, BookingState state, Pageable pageable) {
-        if (!userExistById(ownerId)){
+        if (!userExistById(ownerId)) {
             throw new NotFoundException("Пользователь не найден");
         }
         LocalDateTime timeNow = LocalDateTime.now();
@@ -99,7 +99,8 @@ public class BookingServiceImpl implements BookingService {
         }
         return BookingMapper.mapToBookingDto(booking);
     }
-    public boolean userExistById(long userId){
+
+    public boolean userExistById(long userId) {
         return userRepository.existsById(userId);
     }
 
