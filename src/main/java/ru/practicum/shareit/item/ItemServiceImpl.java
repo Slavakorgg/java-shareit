@@ -36,7 +36,7 @@ public class ItemServiceImpl implements ItemService {
     private final CommentRepository commentRepository;
 
     @Override
-    public ItemDto create(NewItemDto newItemDto, Long userId) {
+    public ItemDto create(NewItemDto newItemDto, long userId) {
         log.debug("==> Creating item: {}", newItemDto);
         User owner = UserMapper.mapToUser(userService.getById(userId));
         Item item = ItemMapper.mapToNewItem(newItemDto, owner);
@@ -46,7 +46,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public ItemDto update(long itemId, UpdateItemDto itemDto, Long userID) {
+    public ItemDto update(long itemId, UpdateItemDto itemDto, long userID) {
         log.debug("==> Updating item: {}", itemDto);
         Item oldItem = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Предмет не найден"));
@@ -62,7 +62,7 @@ public class ItemServiceImpl implements ItemService {
 
 
     @Override
-    public ItemWithCommentsDto get(Long itemId) {
+    public ItemWithCommentsDto get(long itemId) {
         log.debug("==> get item by id: {}", itemId);
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Предмет не найден"));
@@ -74,7 +74,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
-    public List<ItemDto> getAllItemsByOwner(Long ownerId) {
+    public List<ItemDto> getAllItemsByOwner(long ownerId) {
         log.debug("==> get user items by user id: {}", ownerId);
         return itemRepository.findByOwner(UserMapper.mapToUser(userService.getById(ownerId)))
                 .stream()
