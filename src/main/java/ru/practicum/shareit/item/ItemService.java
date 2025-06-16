@@ -11,13 +11,13 @@ import java.util.List;
 
 public interface ItemService {
 
-    ItemDto create(NewItemDto newItemDto, Long userId);
+    ItemDto create(NewItemDto newItemDto, long userId);
 
-    ItemDto update(long itemId, UpdateItemDto itemDto, Long userID);
+    ItemDto update(long itemId, UpdateItemDto itemDto, long userID);
 
-    ItemWithCommentsDto get(Long itemId);
+    ItemWithCommentsDto get(long itemId);
 
-    List<ItemDto> getAllItemsByOwner(Long ownerId);
+    List<ItemDto> getAllItemsByOwner(long ownerId);
 
     List<ItemDto> search(String searchText);
 
