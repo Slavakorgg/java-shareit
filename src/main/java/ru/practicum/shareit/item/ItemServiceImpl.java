@@ -102,19 +102,18 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public CommentDto createComment(NewCommentDto newCommentDto, long itemId, long userId) {
         log.debug("==> create comment for item: {}", itemId);
-        Booking booking = bookingRepository.findByItem_idAndBooker_id(itemId, userId);
-        if (booking != null) {
-            if (booking.getEnd().isAfter(LocalDateTime.now())) {
-                throw new NoAccessException("Срок бронирования предмета еще не закончился");
-            }
-            User commentAuthor = UserMapper.mapToUser(userService.getById(userId));
-            Item item = itemRepository.findById(itemId)
-                    .orElseThrow(() -> new NotFoundException("Предмет не найден"));
-            Comment comment = CommentMapper.mapToNewComment(newCommentDto, item, commentAuthor);
-            commentRepository.save(comment);
-            log.debug("<== create comment for item: {}", itemId);
-            return CommentMapper.mapToCommentDto(comment);
+        Booking booking = bookingRepository.findByItem_idAndBooker_id(itemId, userId)
+                .orElseThrow(() -> new NotFoundException("Бронирование для предмета не найдено, невозможно добавить комментарий"));
+        if (booking.getEnd().isAfter(LocalDateTime.now())) {
+            throw new NoAccessException("Срок бронирования предмета еще не закончился");
         }
-        throw new NoAccessException("Бронирование для предмета не найдено, невозможно добавить комментарий");
+        User commentAuthor = UserMapper.mapToUser(userService.getById(userId));
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Предмет не найден"));
+        Comment comment = CommentMapper.mapToNewComment(newCommentDto, item, commentAuthor);
+        commentRepository.save(comment);
+        log.debug("<== create comment for item: {}", itemId);
+        return CommentMapper.mapToCommentDto(comment);
     }
+
 }

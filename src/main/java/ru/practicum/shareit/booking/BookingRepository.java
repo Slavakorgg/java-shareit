@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
     Page<Booking> findByBooker_Id(long bookerId, Pageable pageable);
@@ -42,5 +43,5 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     List<Booking> findByItem_idAndStatus(long itemId, BookingStatus status);
 
-    Booking findByItem_idAndBooker_id(long itemId, long bookerId);
+    Optional<Booking> findByItem_idAndBooker_id(long itemId, long bookerId);
 }

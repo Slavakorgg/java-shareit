@@ -17,6 +17,6 @@ public class UpdateItemDto {
     }
 
     public boolean hasAvailable() {
-        return available != null;
+        return Boolean.FALSE.equals(available);
     }
 }

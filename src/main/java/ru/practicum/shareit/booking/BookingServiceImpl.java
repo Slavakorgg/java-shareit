@@ -55,8 +55,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingDto> findByBooker(long bookerId, BookingState state, Pageable pageable) {
-        userRepository.findById(bookerId)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        if (!userExistById(bookerId)){
+            throw new NotFoundException("Пользователь не найден");
+        }
         LocalDateTime timeNow = LocalDateTime.now();
         Page<Booking> page = switch (state) {
             case CURRENT -> bookingRepository.findCurrentByBooker(bookerId, timeNow, pageable);
@@ -72,8 +73,9 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public Page<BookingDto> findByOwner(long ownerId, BookingState state, Pageable pageable) {
-        userRepository.findById(ownerId)
-                .orElseThrow(() -> new NotFoundException("Пользователь не найден"));
+        if (!userExistById(ownerId)){
+            throw new NotFoundException("Пользователь не найден");
+        }
         LocalDateTime timeNow = LocalDateTime.now();
         Page<Booking> page = switch (state) {
             case CURRENT -> bookingRepository.findCurrentByOwner(ownerId, timeNow, pageable);
@@ -96,6 +98,9 @@ public class BookingServiceImpl implements BookingService {
             throw new NoAccessException("No access to booking");
         }
         return BookingMapper.mapToBookingDto(booking);
+    }
+    public boolean userExistById(long userId){
+        return userRepository.existsById(userId);
     }
 
 }
