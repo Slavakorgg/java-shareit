@@ -5,9 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import ru.practicum.shareit.exception.NoDataFoundException;
-import ru.practicum.shareit.exception.NotFoundException;
-import ru.practicum.shareit.exception.ValidationException;
+import ru.practicum.shareit.exception.*;
 
 @RestControllerAdvice
 @Slf4j
@@ -38,6 +36,26 @@ public class ErrorHandler {
         log.error("Ошибка заполнения данных {}", e.getMessage());
         return new ErrorResponse(
                 "Ошибка заполнения данных",
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleAvailableError(final NotAvailableItemException e) {
+        log.error("Ошибка с доступностью вещи {}", e.getMessage());
+        return new ErrorResponse(
+                "Ошибка с доступностью вещи",
+                e.getMessage()
+        );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleNoAccessException(final NoAccessException e) {
+        log.error("Ошибка доступа {}", e.getMessage());
+        return new ErrorResponse(
+                "Ошибка доступа",
                 e.getMessage()
         );
     }

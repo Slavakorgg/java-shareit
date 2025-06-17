@@ -1,22 +1,19 @@
 package ru.practicum.shareit.item.dto;
 
 import lombok.*;
-import org.springframework.validation.annotation.Validated;
+import ru.practicum.shareit.user.dto.UserDto;
 
 
 /**
  * TODO Sprint add-controllers.
  */
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
-@Validated
+@Data
+@Builder
 public class ItemDto {
     private Long id;
     private String name;
     private String description;
     private Boolean available;
+    private UserDto owner;
 
 }
