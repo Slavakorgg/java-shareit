@@ -5,14 +5,16 @@ import org.springframework.data.domain.Pageable;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.NewBookingDto;
 
+import java.util.List;
+
 public interface BookingService {
     BookingDto create(NewBookingDto newBookingDto, long bookerId);
 
     BookingDto approveBooking(long userId, long bookingId, boolean approved);
 
-    Page<BookingDto> findByBooker(long bookerId, BookingState state, Pageable pageable);
+    List<BookingDto> findByBooker(long bookerId, BookingState state);
 
-    Page<BookingDto> findByOwner(long ownerId, BookingState state, Pageable pageable);
+    List<BookingDto> findByOwner(long ownerId, BookingState state);
 
     BookingDto findById(long userId, long bookingId);
 }

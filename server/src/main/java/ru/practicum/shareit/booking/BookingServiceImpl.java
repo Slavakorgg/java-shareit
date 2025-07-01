@@ -3,8 +3,6 @@ package ru.practicum.shareit.booking;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.dto.BookingDto;
 import ru.practicum.shareit.booking.dto.NewBookingDto;
@@ -17,6 +15,7 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,39 +53,39 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
-    public Page<BookingDto> findByBooker(long bookerId, BookingState state, Pageable pageable) {
+    public List<BookingDto> findByBooker(long bookerId, BookingState state) {
         if (!userExistById(bookerId)) {
             throw new NotFoundException("Пользователь не найден");
         }
         LocalDateTime timeNow = LocalDateTime.now();
-        Page<Booking> page = switch (state) {
-            case CURRENT -> bookingRepository.findCurrentByBooker(bookerId, timeNow, pageable);
-            case PAST -> bookingRepository.findByBooker_IdAndEndBefore(bookerId, timeNow, pageable);
-            case FUTURE -> bookingRepository.findByBooker_IdAndStartAfter(bookerId, timeNow, pageable);
-            case WAITING -> bookingRepository.findByBooker_IdAndStatus(bookerId, BookingStatus.WAITING, pageable);
-            case REJECTED -> bookingRepository.findByBooker_IdAndStatus(bookerId, BookingStatus.REJECTED, pageable);
-            case ALL -> bookingRepository.findByBooker_Id(bookerId, pageable);
+        List<Booking> bookings = switch (state) {
+            case CURRENT -> bookingRepository.findCurrentByBooker(bookerId, timeNow);
+            case PAST -> bookingRepository.findByBooker_IdAndEndBefore(bookerId, timeNow);
+            case FUTURE -> bookingRepository.findByBooker_IdAndStartAfter(bookerId, timeNow);
+            case WAITING -> bookingRepository.findByBooker_IdAndStatus(bookerId, BookingStatus.WAITING);
+            case REJECTED -> bookingRepository.findByBooker_IdAndStatus(bookerId, BookingStatus.REJECTED);
+            case ALL -> bookingRepository.findByBooker_Id(bookerId);
             default -> throw new NotFoundException("Некорректный параметр state");
         };
-        return page.map(BookingMapper::mapToBookingDto);
+        return bookings.stream().map(BookingMapper::mapToBookingDto).toList();
     }
 
     @Override
-    public Page<BookingDto> findByOwner(long ownerId, BookingState state, Pageable pageable) {
+    public List<BookingDto> findByOwner(long ownerId, BookingState state) {
         if (!userExistById(ownerId)) {
             throw new NotFoundException("Пользователь не найден");
         }
         LocalDateTime timeNow = LocalDateTime.now();
-        Page<Booking> page = switch (state) {
-            case CURRENT -> bookingRepository.findCurrentByOwner(ownerId, timeNow, pageable);
-            case PAST -> bookingRepository.findByItemOwner_IdAndEndBefore(ownerId, timeNow, pageable);
-            case FUTURE -> bookingRepository.findByItemOwner_IdAndStartAfter(ownerId, timeNow, pageable);
-            case WAITING -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, BookingStatus.WAITING, pageable);
-            case REJECTED -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, BookingStatus.REJECTED, pageable);
-            case ALL -> bookingRepository.findByItemOwner_Id(ownerId, pageable);
+        List<Booking> bookings = switch (state) {
+            case CURRENT -> bookingRepository.findCurrentByOwner(ownerId, timeNow);
+            case PAST -> bookingRepository.findByItemOwner_IdAndEndBefore(ownerId, timeNow);
+            case FUTURE -> bookingRepository.findByItemOwner_IdAndStartAfter(ownerId, timeNow);
+            case WAITING -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, BookingStatus.WAITING);
+            case REJECTED -> bookingRepository.findByItemOwner_IdAndStatus(ownerId, BookingStatus.REJECTED);
+            case ALL -> bookingRepository.findByItemOwner_Id(ownerId);
             default -> throw new NotFoundException("Некорректный параметр state");
         };
-        return page.map(BookingMapper::mapToBookingDto);
+        return bookings.stream().map(BookingMapper::mapToBookingDto).toList();
     }
 
     @Override
