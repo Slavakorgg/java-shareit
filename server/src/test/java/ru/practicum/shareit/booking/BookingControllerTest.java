@@ -82,7 +82,7 @@ public class BookingControllerTest {
 
     @Test
     void getAllUsersBookingsTest() throws Exception {
-        Mockito.when(bookingService.findByBooker(anyLong(),any(BookingState.class)))
+        Mockito.when(bookingService.findByBooker(anyLong(), any(BookingState.class)))
                 .thenReturn(List.of(bookingDto));
 
         mockMvc.perform(get("/bookings")
@@ -94,7 +94,7 @@ public class BookingControllerTest {
 
     @Test
     void getAllBookingsForAllUsersItemsTest() throws Exception {
-        Mockito.when(bookingService.findByOwner( anyLong(),any(BookingState.class)))
+        Mockito.when(bookingService.findByOwner(anyLong(), any(BookingState.class)))
                 .thenReturn(List.of(bookingDto));
 
         mockMvc.perform(get("/bookings/owner")
