@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
-public class UserServiceTest {
+public class UserServiceImplTest {
     private final UserService userService;
 
     private NewUserDto newUserDto;
@@ -100,7 +100,7 @@ public class UserServiceTest {
 
 
     @Test
-    void deleteUserById() {
+    void deleteTest() {
         userService.deleteUser(1);
 
         NotFoundException e = assertThrows(NotFoundException.class,

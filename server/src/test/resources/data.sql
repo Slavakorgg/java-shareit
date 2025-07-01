@@ -31,8 +31,6 @@ VALUES ('2022-05-01 00:00:00', '2022-06-07 00:00:00', 3, 2, 'APPROVED');
 INSERT INTO bookings (start_time, end_time, item_id, booker_id, status)
 VALUES ('2025-07-01 00:00:00', '2025-07-07 00:00:00', 3, 1, 'WAITING');
 
-INSERT INTO bookings (start_time, end_time, item_id, booker_id, status)
-VALUES ('2025-05-01 00:00:00', '2025-06-07 00:00:00', 3, 2, 'APPROVED');
 
 INSERT INTO comments(item_id, author_id, text,created)
 VALUES (1, 2, 'comment text','2025-02-07 00:00:00');
