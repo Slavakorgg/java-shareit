@@ -30,8 +30,8 @@ public class ItemController {
 
     @PatchMapping("/{itemId}")
     public ResponseEntity<Object> update(@PathVariable("itemId") Long itemId,
-                          @RequestBody UpdateItemDto itemDto,
-                          @RequestHeader(value = "X-Sharer-User-Id") Long userId) {
+                                         @RequestBody UpdateItemDto itemDto,
+                                         @RequestHeader(value = "X-Sharer-User-Id") Long userId) {
 
         return itemClient.update(itemId, itemDto, userId);
     }
@@ -57,8 +57,8 @@ public class ItemController {
     @PostMapping("/{itemId}/comment")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Object> createComment(@RequestHeader("X-Sharer-User-Id") long userId,
-                                    @PathVariable("itemId") long itemId,
-                                    @RequestBody @Valid NewCommentDto newCommentDto) {
+                                                @PathVariable("itemId") long itemId,
+                                                @RequestBody @Valid NewCommentDto newCommentDto) {
         return itemClient.createComment(newCommentDto, itemId, userId);
     }
 }
