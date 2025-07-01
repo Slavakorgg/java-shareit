@@ -9,6 +9,8 @@ import ru.practicum.shareit.user.dto.UserDto;
  */
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ItemDto {
     private Long id;
     private String name;
