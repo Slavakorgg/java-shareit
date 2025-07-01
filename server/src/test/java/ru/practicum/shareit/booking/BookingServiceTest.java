@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class BookingServiceTest {
-    private final BookingService bookingService;
+    private final BookingServiceImpl bookingService;
     private final UserRepository userRepository;
     private final ItemRepository itemRepository;
 

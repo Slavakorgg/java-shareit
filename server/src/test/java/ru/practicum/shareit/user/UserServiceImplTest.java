@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class UserServiceImplTest {
-    private final UserService userService;
+    private final UserServiceImpl userService;
 
     private NewUserDto newUserDto;
     private UpdateUserDto updateUserDto;

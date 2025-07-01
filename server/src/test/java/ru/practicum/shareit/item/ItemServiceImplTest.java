@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class ItemServiceImplTest {
-    private final ItemService itemService;
+    private final ItemServiceImpl itemService;
 
     @Test
     void addNewItemTest() {
