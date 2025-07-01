@@ -35,7 +35,7 @@ public class ItemRequestServiseImpl implements ItemRequestService {
     }
 
     @Override
-    public ItemRequestDto getById(long id){
+    public ItemRequestDto getById(long id) {
         return RequestMapper.toDto(getRequestById(id));
     }
 

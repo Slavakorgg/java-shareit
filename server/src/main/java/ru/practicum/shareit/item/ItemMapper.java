@@ -28,7 +28,7 @@ public class ItemMapper {
     }
 
     public static Item mapToNewItem(NewItemDto newItemDto, User owner) {
-        ItemRequest request = newItemDto.getRequestId() == null ? null :ItemRequest.builder().id(newItemDto.getRequestId()).build();
+        ItemRequest request = newItemDto.getRequestId() == null ? null : ItemRequest.builder().id(newItemDto.getRequestId()).build();
 
         return Item.builder()
                 .name(newItemDto.getName())
@@ -70,6 +70,7 @@ public class ItemMapper {
         }
         return itemWithCommentsDto;
     }
+
     public static ItemResponseToRequestDto itemResponseToRequestDto(Item item) {
         return ItemResponseToRequestDto.builder()
                 .id(item.getId())

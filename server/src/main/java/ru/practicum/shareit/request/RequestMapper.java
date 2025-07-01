@@ -13,6 +13,7 @@ public class RequestMapper {
                 .created(LocalDateTime.now())
                 .build();
     }
+
     public static ItemRequestDto toDto(ItemRequest request) {
         return ItemRequestDto.builder()
                 .id(request.getId())

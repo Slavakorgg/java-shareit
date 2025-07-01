@@ -18,14 +18,15 @@ public class ItemRequestController {
 
     @PostMapping
     public ItemRequestDto create(@RequestBody NewItemRequestDto newItemRequestDto,
-                                 @RequestHeader("X-Sharer-User-Id") Long userId){
-        return requestService.create(newItemRequestDto,userId);
+                                 @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return requestService.create(newItemRequestDto, userId);
     }
 
     @GetMapping
-    public List<ItemRequestDto> getRequestsByUser(@RequestHeader("X-Sharer-User-Id") Long userId){
+    public List<ItemRequestDto> getRequestsByUser(@RequestHeader("X-Sharer-User-Id") Long userId) {
         return requestService.getByUser(userId);
     }
+
     @GetMapping("/{requestId}")
     public ItemRequestDto getRequestById(@PathVariable Long requestId) {
         return requestService.getById(requestId);
