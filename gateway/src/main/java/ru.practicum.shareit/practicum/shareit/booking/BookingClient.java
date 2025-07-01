@@ -49,7 +49,7 @@ public class BookingClient extends BaseClient {
     }
 
     public ResponseEntity<Object> create(NewBookingDto newBookingDto, long userId) {
-        return post("",userId,newBookingDto);
+        return post("", userId, newBookingDto);
     }
 
     /*public ResponseEntity<Object> approveBooking(long userId, long bookingId, boolean approved) {
@@ -58,23 +58,23 @@ public class BookingClient extends BaseClient {
     }*/
 
     public ResponseEntity<Object> approveBooking(long userId, long bookingId, boolean approved) {
-        Map<String, Object> uriVariables = Map.of("bookingId",bookingId,"approved", approved);
-        return patch("/" + bookingId+"?approved="+approved, userId, approved);
+        Map<String, Object> uriVariables = Map.of("bookingId", bookingId, "approved", approved);
+        return patch("/" + bookingId + "?approved=" + approved, userId, approved);
     }
 
     public ResponseEntity<Object> findById(long userId, long bookingId) {
-        return get("/" + bookingId,userId);
+        return get("/" + bookingId, userId);
     }
 
     public ResponseEntity<Object> findByBooker(long userId, BookingState state) {
-        Map<String,Object> parameters = Map.of(
+        Map<String, Object> parameters = Map.of(
                 "state", state.name()
         );
-        return get("?state={state}",userId,parameters);
+        return get("?state={state}", userId, parameters);
     }
 
     public ResponseEntity<Object> findByOwner(long userId, BookingState state) {
-        Map<String,Object> parameters = Map.of(
+        Map<String, Object> parameters = Map.of(
                 "state", state.name()
         );
         return get("/owner", userId, parameters);
