@@ -67,7 +67,6 @@ public class BookingServiceTest {
     }
 
 
-
     @Test
     void createBookingWithNotAvailableItemTest() {
         newBookingDto = new NewBookingDto(LocalDateTime.of(2026, 4, 5, 0, 0, 0),
@@ -88,7 +87,6 @@ public class BookingServiceTest {
         Assertions.assertNotNull(bookingDto);
         Assertions.assertEquals(BookingStatus.APPROVED, bookingDto.getStatus());
     }
-
 
 
     @Test
@@ -121,32 +119,32 @@ public class BookingServiceTest {
 
     @Test
     void getAllUsersBookingsTest() {
-        List<BookingDto> bookingDtoList = bookingService.findByBooker( 2,BookingState.ALL);
+        List<BookingDto> bookingDtoList = bookingService.findByBooker(2, BookingState.ALL);
 
         Assertions.assertNotNull(bookingDtoList);
         Assertions.assertEquals(3, bookingDtoList.size());
 
-        List<BookingDto> bookingDtoList1 = bookingService.findByBooker( 2,BookingState.PAST);
+        List<BookingDto> bookingDtoList1 = bookingService.findByBooker(2, BookingState.PAST);
 
         Assertions.assertNotNull(bookingDtoList1);
         Assertions.assertEquals(2, bookingDtoList1.size());
 
-        List<BookingDto> bookingDtoList2 = bookingService.findByBooker( 2,BookingState.FUTURE);
+        List<BookingDto> bookingDtoList2 = bookingService.findByBooker(2, BookingState.FUTURE);
 
         Assertions.assertNotNull(bookingDtoList2);
         Assertions.assertEquals(0, bookingDtoList2.size());
 
-        List<BookingDto> bookingDtoList3 = bookingService.findByBooker( 2,BookingState.CURRENT);
+        List<BookingDto> bookingDtoList3 = bookingService.findByBooker(2, BookingState.CURRENT);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(0, bookingDtoList3.size());
 
-        List<BookingDto> bookingDtoList4 = bookingService.findByBooker( 2,BookingState.WAITING);
+        List<BookingDto> bookingDtoList4 = bookingService.findByBooker(2, BookingState.WAITING);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(0, bookingDtoList4.size());
 
-        List<BookingDto> bookingDtoList5 = bookingService.findByBooker( 2,BookingState.REJECTED);
+        List<BookingDto> bookingDtoList5 = bookingService.findByBooker(2, BookingState.REJECTED);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(1, bookingDtoList5.size());
@@ -155,7 +153,7 @@ public class BookingServiceTest {
     @Test
     void getAllUsersBookingsWithWrongStateTest() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-                () -> bookingService.findByBooker( 2,BookingState.valueOf("asd"))
+                () -> bookingService.findByBooker(2, BookingState.valueOf("asd"))
         );
 
         Assertions.assertEquals(e.getMessage(), "No enum constant ru.practicum.shareit.booking.BookingState.asd");
@@ -163,32 +161,32 @@ public class BookingServiceTest {
 
     @Test
     void getAllBookingsForAllUsersItemsTest() {
-        List<BookingDto> bookingDtoList = bookingService.findByOwner( 3,BookingState.ALL);
+        List<BookingDto> bookingDtoList = bookingService.findByOwner(3, BookingState.ALL);
 
         Assertions.assertNotNull(bookingDtoList);
         Assertions.assertEquals(2, bookingDtoList.size());
 
-        List<BookingDto> bookingDtoList1 = bookingService.findByOwner( 3,BookingState.PAST);
+        List<BookingDto> bookingDtoList1 = bookingService.findByOwner(3, BookingState.PAST);
 
         Assertions.assertNotNull(bookingDtoList1);
         Assertions.assertEquals(1, bookingDtoList1.size());
 
-        List<BookingDto> bookingDtoList2 = bookingService.findByOwner( 3,BookingState.FUTURE);
+        List<BookingDto> bookingDtoList2 = bookingService.findByOwner(3, BookingState.FUTURE);
 
         Assertions.assertNotNull(bookingDtoList2);
         Assertions.assertEquals(1, bookingDtoList2.size());
 
-        List<BookingDto> bookingDtoList3 = bookingService.findByOwner( 3,BookingState.CURRENT);
+        List<BookingDto> bookingDtoList3 = bookingService.findByOwner(3, BookingState.CURRENT);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(0, bookingDtoList3.size());
 
-        List<BookingDto> bookingDtoList4 = bookingService.findByOwner( 3,BookingState.WAITING);
+        List<BookingDto> bookingDtoList4 = bookingService.findByOwner(3, BookingState.WAITING);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(1, bookingDtoList4.size());
 
-        List<BookingDto> bookingDtoList5 = bookingService.findByOwner( 3,BookingState.REJECTED);
+        List<BookingDto> bookingDtoList5 = bookingService.findByOwner(3, BookingState.REJECTED);
 
         Assertions.assertNotNull(bookingDtoList3);
         Assertions.assertEquals(0, bookingDtoList5.size());
@@ -197,7 +195,7 @@ public class BookingServiceTest {
     @Test
     void getAllBookingsForAllUsersItemsWithWrongStatusTest() {
         IllegalArgumentException e = assertThrows(IllegalArgumentException.class,
-                () -> bookingService.findByOwner( 3,BookingState.valueOf("asd"))
+                () -> bookingService.findByOwner(3, BookingState.valueOf("asd"))
         );
 
         Assertions.assertEquals(e.getMessage(), "No enum constant ru.practicum.shareit.booking.BookingState.asd");
