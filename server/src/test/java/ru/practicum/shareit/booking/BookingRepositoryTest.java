@@ -9,6 +9,7 @@ import ru.practicum.shareit.item.ItemRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @DataJpaTest
@@ -38,6 +39,14 @@ public class BookingRepositoryTest {
     }
 
     @Test
+    void findAllByOwnerIdAndEndingBeforeTest() {
+        bookingDataList = bookingRepository.findByItemOwner_IdAndEndBefore(1, LocalDateTime.now());
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(1, bookingDataList.size());
+    }
+
+    @Test
     void findAllByBookerIdAndStartAfterTest() {
         bookingDataList = bookingRepository.findByBooker_IdAndStartAfter(2, LocalDateTime.now());
 
@@ -46,7 +55,15 @@ public class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBookerIdCurrentBookingTest() {
+    void findAllByOwnerIdAndStartAfterTest() {
+        bookingDataList = bookingRepository.findByItemOwner_IdAndStartAfter(2, LocalDateTime.now());
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(0, bookingDataList.size());
+    }
+
+    @Test
+    void findCurrentByOwnerTest() {
         bookingDataList = bookingRepository.findCurrentByOwner(1, LocalDateTime.now());
 
         Assertions.assertNotNull(bookingDataList);
@@ -54,10 +71,35 @@ public class BookingRepositoryTest {
     }
 
     @Test
-    void findAllByBookerIdAndStatusTest() {
-        bookingDataList = bookingRepository.findByBooker_IdAndStatus(2, BookingStatus.WAITING);
+    void findCurrentByBookerTest() {
+        bookingDataList = bookingRepository.findCurrentByBooker(1, LocalDateTime.now());
 
-        Assertions.assertTrue(bookingDataList.isEmpty());
+        Assertions.assertNotNull(bookingDataList);
+
+    }
+
+    @Test
+    void findAllByBookerIdAndStatusTest() {
+        bookingDataList = bookingRepository.findByBooker_IdAndStatus(1, BookingStatus.WAITING);
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(1, bookingDataList.size());
+    }
+
+    @Test
+    void findAllByOwnerIdAndStatusTest() {
+        bookingDataList = bookingRepository.findByItemOwner_IdAndStatus(3, BookingStatus.WAITING);
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(1, bookingDataList.size());
+    }
+
+    @Test
+    void findAllByItemIdAndStatusTest() {
+        bookingDataList = bookingRepository.findByItem_idAndStatus(3, BookingStatus.WAITING);
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(1, bookingDataList.size());
     }
 
     @Test
@@ -66,5 +108,13 @@ public class BookingRepositoryTest {
 
         Assertions.assertNotNull(bookingDataList);
         Assertions.assertEquals(1, bookingDataList.size());
+    }
+
+    @Test
+    void findAllByItemIdAndBookerId() {
+        Optional<Booking> bookingDataList = bookingRepository.findByItem_idAndBooker_id(3, 2);
+
+        Assertions.assertNotNull(bookingDataList);
+        Assertions.assertEquals(1, bookingDataList.stream().toList().size());
     }
 }
