@@ -10,15 +10,6 @@ import ru.practicum.shareit.exception.*;
 @RestControllerAdvice
 @Slf4j
 public class ErrorHandler {
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleValidationError(final ValidationException e) {
-        log.error("Ошибка валидации {}", e.getMessage());
-        return new ErrorResponse(
-                "Ошибка валидации",
-                e.getMessage()
-        );
-    }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -26,16 +17,6 @@ public class ErrorHandler {
         log.error("Искомый объект не найдена {}", e.getMessage());
         return new ErrorResponse(
                 "Искомый объект не найден",
-                e.getMessage()
-        );
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ErrorResponse handleNoDataFound(final NoDataFoundException e) {
-        log.error("Ошибка заполнения данных {}", e.getMessage());
-        return new ErrorResponse(
-                "Ошибка заполнения данных",
                 e.getMessage()
         );
     }
