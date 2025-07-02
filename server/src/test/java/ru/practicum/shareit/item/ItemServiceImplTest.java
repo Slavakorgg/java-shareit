@@ -13,6 +13,7 @@ import ru.practicum.shareit.item.dto.*;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
@@ -32,10 +33,10 @@ public class ItemServiceImplTest {
         ItemDto itemDto = itemService.create(newItemDto, 1);
 
         Assertions.assertNotNull(itemDto);
-        Assertions.assertEquals(5, itemDto.getId());
-        Assertions.assertEquals("new_item_5", itemDto.getName());
-        Assertions.assertEquals("new_item_5_description", itemDto.getDescription());
-        Assertions.assertEquals(1, itemDto.getOwner().getId());
+        assertEquals(5, itemDto.getId());
+        assertEquals("new_item_5", itemDto.getName());
+        assertEquals("new_item_5_description", itemDto.getDescription());
+        assertEquals(1, itemDto.getOwner().getId());
 
     }
 
@@ -51,7 +52,7 @@ public class ItemServiceImplTest {
                 () -> itemService.create(newItemDto, 1000)
         );
 
-        Assertions.assertEquals(e.getMessage(), "Пользователь с id = 1000 не найден");
+        assertEquals(e.getMessage(), "Пользователь с id = 1000 не найден");
     }
 
     @Test
@@ -63,7 +64,7 @@ public class ItemServiceImplTest {
         ItemDto itemDto = itemService.update(1, updateItemDto, 1);
 
         Assertions.assertNotNull(itemDto);
-        Assertions.assertEquals("new_item_test", itemDto.getName());
+        assertEquals("new_item_test", itemDto.getName());
     }
 
     @Test
@@ -76,7 +77,7 @@ public class ItemServiceImplTest {
                 () -> itemService.update(1000, updateItemDto, 2)
         );
 
-        Assertions.assertEquals(e.getMessage(), "Предмет не найден");
+        assertEquals(e.getMessage(), "Предмет не найден");
     }
 
     @Test
@@ -89,7 +90,7 @@ public class ItemServiceImplTest {
                 () -> itemService.update(1, updateItemDto, 3)
         );
 
-        Assertions.assertEquals(e.getMessage(), "У вас недостаточно прав для обновления вещи");
+        assertEquals(e.getMessage(), "У вас недостаточно прав для обновления вещи");
     }
 
     @Test
@@ -97,8 +98,8 @@ public class ItemServiceImplTest {
         ItemWithCommentsDto itemDto = itemService.get(1L);
 
         Assertions.assertNotNull(itemDto);
-        Assertions.assertEquals("new_item", itemDto.getName());
-        Assertions.assertEquals("description_new_item", itemDto.getDescription());
+        assertEquals("new_item", itemDto.getName());
+        assertEquals("description_new_item", itemDto.getDescription());
     }
 
     @Test
@@ -106,7 +107,7 @@ public class ItemServiceImplTest {
         List<ItemDto> itemDtoList = itemService.getAllItemsByOwner(3L);
 
         Assertions.assertNotNull(itemDtoList);
-        Assertions.assertEquals(3, itemDtoList.size());
+        assertEquals(3, itemDtoList.size());
     }
 
     @Test
@@ -114,7 +115,7 @@ public class ItemServiceImplTest {
         List<ItemDto> itemDtoList = itemService.search("item");
 
         Assertions.assertNotNull(itemDtoList);
-        Assertions.assertEquals(3, itemDtoList.size());
+        assertEquals(3, itemDtoList.size());
     }
 
     @Test
@@ -125,9 +126,9 @@ public class ItemServiceImplTest {
         CommentDto commentDto = itemService.createComment(newCommentDto, 3, 2);
 
         Assertions.assertNotNull(commentDto);
-        Assertions.assertEquals(2, commentDto.getId());
-        Assertions.assertEquals("comment_test_text", commentDto.getText());
-        Assertions.assertEquals("booker", commentDto.getAuthorName());
+        assertEquals(2, commentDto.getId());
+        assertEquals("comment_test_text", commentDto.getText());
+        assertEquals("booker", commentDto.getAuthorName());
     }
 
     @Test
@@ -139,7 +140,7 @@ public class ItemServiceImplTest {
                 () -> itemService.createComment(newCommentDto, 3, 3)
         );
 
-        Assertions.assertEquals(e.getMessage(), "Бронирование для предмета не найдено, невозможно добавить комментарий");
+        assertEquals(e.getMessage(), "Бронирование для предмета не найдено, невозможно добавить комментарий");
 
     }
 }

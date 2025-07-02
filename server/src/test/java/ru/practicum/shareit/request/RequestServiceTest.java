@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @Transactional
 @RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class RequestServiceTest {
-    private final ItemRequestServiseImpl requestService;
+    private final ItemRequestServiceImpl requestService;
 
     @Test
     void postRequestTest() {
