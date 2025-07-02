@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.user.dto.NewUserDto;
@@ -22,6 +23,7 @@ public class UserServiceImplTest {
     private final UserServiceImpl userService;
 
     private NewUserDto newUserDto;
+    private NewUserDto newUserDto2;
     private UpdateUserDto updateUserDto;
 
     @Test
@@ -33,6 +35,30 @@ public class UserServiceImplTest {
         Assertions.assertEquals(4, userDto.getId());
         Assertions.assertEquals("Don", userDto.getName());
         Assertions.assertEquals("don@example.com", userDto.getEmail());
+    }
+
+    @Test
+    void addUserWithoutEmailTest() {
+        newUserDto = new NewUserDto("Don", "don@example.com");
+        newUserDto.setEmail(null);
+
+        DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
+                () -> userService.create(newUserDto)
+        );
+
+    }
+
+    @Test
+    void addUserWithSameEmailTest() {
+        newUserDto = new NewUserDto("Don", "don@example.com");
+        newUserDto2 = new NewUserDto("Don2", "don@example.com");
+        userService.create(newUserDto);
+
+
+        DataIntegrityViolationException e = assertThrows(DataIntegrityViolationException.class,
+                () -> userService.create(newUserDto2)
+        );
+
     }
 
 
@@ -108,6 +134,17 @@ public class UserServiceImplTest {
         );
 
         Assertions.assertEquals(e.getMessage(), "Пользователь с id = 1 не найден");
+
+    }
+
+    @Test
+    void deleteWrongIdTest() {
+
+        NotFoundException e = assertThrows(NotFoundException.class,
+                () -> userService.deleteUser(1000)
+        );
+
+        Assertions.assertEquals(e.getMessage(), "Пользователь с id = 1000 не найден");
 
     }
 }
