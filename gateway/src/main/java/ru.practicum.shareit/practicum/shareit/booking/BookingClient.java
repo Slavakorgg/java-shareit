@@ -1,12 +1,8 @@
 package ru.practicum.shareit.practicum.shareit.booking;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.web.client.RestTemplateBuilder;
+
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.DefaultUriBuilderFactory;
+import org.springframework.web.client.RestTemplate;
 import ru.practicum.shareit.practicum.shareit.booking.dto.BookItemRequestDto;
 import ru.practicum.shareit.practicum.shareit.booking.dto.BookingState;
 import ru.practicum.shareit.practicum.shareit.booking.dto.NewBookingDto;
@@ -14,20 +10,11 @@ import ru.practicum.shareit.practicum.shareit.client.BaseClient;
 
 import java.util.Map;
 
-@Service
-public class BookingClient extends BaseClient {
-    private static final String API_PREFIX = "/bookings";
-    private static final String BOOKING_ID_PATH = "/{bookingId}";
-    private static final String BOOKING_PATH = BOOKING_ID_PATH + "?approved={approved}";
 
-    @Autowired
-    public BookingClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
-        super(
-                builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
-                        .requestFactory(() -> new HttpComponentsClientHttpRequestFactory())
-                        .build()
-        );
+public class BookingClient extends BaseClient {
+
+    public BookingClient(RestTemplate restTemplate) {
+        super(restTemplate);
     }
 
     public ResponseEntity<Object> getBookings(long userId, BookingState state, Integer from, Integer size) {
@@ -52,10 +39,6 @@ public class BookingClient extends BaseClient {
         return post("", userId, newBookingDto);
     }
 
-    /*public ResponseEntity<Object> approveBooking(long userId, long bookingId, boolean approved) {
-        Map<String, Object> uriVariables = Map.of("bookingId",bookingId,"approved", approved);
-        return patch(BOOKING_PATH,userId,uriVariables);
-    }*/
 
     public ResponseEntity<Object> approveBooking(long userId, long bookingId, boolean approved) {
         Map<String, Object> uriVariables = Map.of("bookingId", bookingId, "approved", approved);
