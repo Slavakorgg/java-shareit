@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.comment.dto.NewCommentDto;
+import ru.practicum.shareit.exception.NoAccessException;
 import ru.practicum.shareit.exception.NotFoundException;
 import ru.practicum.shareit.item.dto.*;
 
@@ -103,6 +104,14 @@ public class ItemServiceImplTest {
     }
 
     @Test
+    void getItemByWrongIdTest() {
+        NotFoundException e = assertThrows(NotFoundException.class,
+                () -> itemService.get(1000)
+        );
+        assertEquals(e.getMessage(), "Предмет не найден");
+    }
+
+    @Test
     void getItemsByOwner() {
         List<ItemDto> itemDtoList = itemService.getAllItemsByOwner(3L);
 
@@ -141,6 +150,19 @@ public class ItemServiceImplTest {
         );
 
         assertEquals(e.getMessage(), "Бронирование для предмета не найдено, невозможно добавить комментарий");
+
+    }
+
+    @Test
+    void addNewCommentWithWrongTimeTest() {
+        NewCommentDto newCommentDto = NewCommentDto.builder()
+                .text("comment_test_text").build();
+
+        NoAccessException e = assertThrows(NoAccessException.class,
+                () -> itemService.createComment(newCommentDto, 3, 1)
+        );
+
+        assertEquals(e.getMessage(), "Срок бронирования предмета еще не закончился");
 
     }
 }
